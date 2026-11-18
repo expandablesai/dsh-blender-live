@@ -1,62 +1,64 @@
-# Publishing this repository
+# Releasing & publishing
 
-`gh` (the GitHub CLI) is not installed on this machine, so the remote has to be
-created once in a browser. Everything else is already done: the directory is a
-git repository with a first commit.
+**Status:** published at <https://github.com/expandablesai/dsh-blender-live>
+(`main` = `00979ff`, annotated tag `v1.3.0`).
+Git Credential Manager stores the push credentials on this machine, so pushes
+work without re-authenticating.
 
-## 1. Create the empty repository
+## Cutting a release
 
-On GitHub → **New repository**:
+1. Make the change; keep this repo the single source of truth.
+2. Bump `version` in `package.json` (SemVer) and add a section to `CHANGELOG.md`.
+3. Verify before pushing:
 
-- **Name:** `dsh-blender-live`
-- **Visibility:** Public
-- **Initialise with:** *nothing* (no README, no .gitignore, no licence — they already exist here)
+   ```powershell
+   node --check index.js
+   node --check client.js
+   python -m py_compile blender\dsh_blender_live\__init__.py
+   node -e "for (const f of ['package.json','locale/en.json','locale/zh.json']) JSON.parse(require('fs').readFileSync(f,'utf8'))"
+   ```
 
-## 2. Point this checkout at it and push
+4. Commit, tag, push:
 
-Replace `<your-account>` with your GitHub username:
+   ```powershell
+   git add -A
+   git commit -m "feat: …"
+   git tag -a v1.4.0 -m "v1.4.0 — summary"
+   git push origin main --tags
+   ```
+
+5. Optional: GitHub → **Releases → Draft a new release**, pick the tag, and paste
+   the new `CHANGELOG.md` section as the notes. Users can then download a zip
+   without cloning.
+
+## Repository settings worth setting once
+
+- **About** (gear icon): description *"Full Blender access for the DeepSeek
+  Harness, with a reference | live viewport in the Web GUI"*, topics
+  `blender`, `deepseek-harness`, `dsh`, `bpy`, `viewport`, `plugin`.
+- **Releases**: attach `dsh_blender_live.zip` (the connector, see
+  `docs/INSTALL.md` §1) so users can install it without cloning.
+- **Screenshots**: `docs/screenshots/` is empty on purpose — the previews used
+  during development showed a real client aircraft. Add your own before linking
+  them from the README.
+
+## Installing from the published repo
 
 ```powershell
-cd "D:\DSH-PROJECTS\EXPANDABLES JET V2\plugins\dsh-blender-live"
-
-git remote add origin https://github.com/<your-account>/dsh-blender-live.git
-git push -u origin main
+git clone https://github.com/expandablesai/dsh-blender-live.git
 ```
 
-If git asks for credentials, use a **personal access token** as the password
-(GitHub → Settings → Developer settings → Personal access tokens → Fine-grained,
-scope: *Contents: read and write* on this one repository).
+then follow `docs/INSTALL.md` (English) or `docs/INSTALL.zh-CN.md` (简体中文):
+install the connector in Blender, ask DSH to install the bundle from the cloned
+directory, restart the Harness.
 
-## 3. Fill in the placeholders
+## A note on `package.json`
 
-Two files carry `CHANGE-ME`:
+`"private": true` is deliberate: it prevents an accidental `npm publish` while
+still allowing local/bundle installation. The package is distributed through git,
+not npm.
 
-```powershell
-# package.json → repository.url and bugs.url
-(Get-Content package.json -Raw).Replace('CHANGE-ME', '<your-account>') |
-  Set-Content package.json -NoNewline
-git commit -am "Point repository metadata at the real GitHub URL"
-git push
-```
-
-Then edit `LICENSE` if you want your own name instead of
-"the dsh-blender-live authors", and commit that too.
-
-## 4. Optional, recommended
-
-- **Settings → About:** add the description and topics
-  `blender`, `deepseek-harness`, `plugin`, `viewport`, `bpy`.
-- **Add screenshots:** put images under `docs/screenshots/` and link them from
-  the README. None are committed by default, because the first previews showed a
-  real client aircraft.
-- **Releases:** GitHub → *Releases* → *Draft a new release*, tag `v1.2.0`, and
-  paste the top section of `CHANGELOG.md`. Users can then download a zip without
-  cloning.
-
-## 5. After publishing
-
-Anyone can install it by cloning and pointing DSH at the directory:
-
-> "install the bundle at `<path to the clone>`"
-
-then restarting the Harness. No npm account, registry or build step is involved.
+It must stay **valid JSON without a byte-order mark** — a BOM makes
+`JSON.parse` throw and the plugin fails to load. If you ever rewrite it from
+PowerShell, use `[System.IO.File]::WriteAllText($path, $text, (New-Object System.Text.UTF8Encoding $false))`
+rather than `Set-Content -Encoding UTF8`.
