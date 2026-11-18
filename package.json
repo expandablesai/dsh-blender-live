@@ -1,0 +1,59 @@
+{
+  "name": "@local/dsh-blender-live",
+  "version": "1.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Full Blender access for the DeepSeek Harness, plus a video-editor style reference | live viewport viewer in the Web GUI.",
+  "license": "MIT",
+  "author": "The dsh-blender-live authors",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "blender",
+    "bpy",
+    "viewport",
+    "reference-monitor",
+    "plugin",
+    "bundle"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CHANGE-ME/dsh-blender-live.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CHANGE-ME/dsh-blender-live/issues"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "docs/*.md"
+  ],
+  "scripts": {
+    "check": "node --check index.js && node --check client.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+# Node
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Local scratch
+*.local
+*.log
