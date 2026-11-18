@@ -1,9 +1,9 @@
 {
   "name": "@local/dsh-blender-live",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "type": "module",
-  "description": "Full Blender access for the DeepSeek Harness, plus a video-editor style reference | live viewport viewer in the Web GUI.",
+  "description": "Full Blender access for the DeepSeek Harness, plus a video-editor style reference | live viewport viewer in the Web GUI. Ships its own Blender connector.",
   "license": "MIT",
   "author": "The dsh-blender-live authors",
   "keywords": [
@@ -14,7 +14,8 @@
     "viewport",
     "reference-monitor",
     "plugin",
-    "bundle"
+    "bundle",
+    "addon"
   ],
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "cordis.patch.yml",
     "locale/*.json",
     "icon.svg",
+    "blender/**",
     "README.md",
     "LICENSE",
     "CHANGELOG.md",

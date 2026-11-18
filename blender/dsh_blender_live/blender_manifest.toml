@@ -1,0 +1,18 @@
+schema_version = "1.0.0"
+
+id = "dsh_blender_live"
+version = "1.0.0"
+name = "DSH Blender Live Connector"
+tagline = "Let the DeepSeek Harness drive Blender and watch its viewport"
+maintainer = "The dsh-blender-live authors"
+type = "add-on"
+
+blender_version_min = "4.2.0"
+
+license = ["SPDX:MIT"]
+
+[permissions]
+network = "Allow the connector to listen on 127.0.0.1 so the DeepSeek Harness can talk to Blender"
+
+[build]
+paths_exclude_pattern = ["__pycache__/", "*.pyc"]

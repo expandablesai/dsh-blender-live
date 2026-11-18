@@ -17,3 +17,8 @@ desktop.ini
 # Local scratch
 *.local
 *.log
+
+# Python (Blender connector)
+__pycache__/
+*.pyc
+

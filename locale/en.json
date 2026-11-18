@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "Blender Live",
-    "description": "Connects the harness to a running Blender 5.3 over the blender_mcp add-on socket — build, measure, save and screenshot an airframe in real time — and floats a reference/program monitor in the top-right corner: the reference drawing on the left, the live 3D viewport on the right, set to the matching angle."
+    "description": "Connects the harness to a running Blender 4.2+ — build, measure, save and screenshot an airframe in real time — and shows a reference | live viewport monitor in the Web GUI. Ships its own Blender connector, so nothing else needs installing."
   }
 }
